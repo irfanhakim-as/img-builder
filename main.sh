@@ -4,12 +4,12 @@
 function print_help() {
     echo "Usage: ${0} [options]"; echo
     echo "OPTIONS:"
-    echo "  -h, --help                   Print help message"
-    echo "  -a, --arch <arch>[,<arch>]   Specify at least a single architecture"
-    echo "  -e, --env <envfile>          Specify an environment file"
-    echo "  -f, --file <dockerfile>      Specify a Dockerfile"
-    echo "  -r, --runtime <runtime>      Specify a container runtime"
-    echo "  -v, --version <version>      Specify the container image version"
+    echo "  -h, --help                   print help message"
+    echo "  -a, --arch <arch>[,<arch>]   specify at least a single architecture"
+    echo "  -e, --env <envfile>          specify an environment file"
+    echo "  -f, --file <dockerfile>      specify a dockerfile"
+    echo "  -r, --runtime <runtime>      specify a container runtime"
+    echo "  -v, --version <version>      specify the container image version"
 }
 
 # get optional argument
