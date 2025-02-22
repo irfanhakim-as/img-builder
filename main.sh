@@ -72,7 +72,74 @@ if [ -n "${BUILD_ENVFILE}" ] && [ -f "${BUILD_ENVFILE}" ]; then
     source "$(realpath "${BUILD_ENVFILE}")"
 fi
 
-# determine container runtime only if not set
+# ============================================================================================================================
+
+function trim() {
+    local v="${1}"
+    v="${v#"${v%%[![:space:]]*}"}"
+    v="${v%"${v##*[![:space:]]}"}"
+    echo "${v}"
+}
+
+function parse_list_item() {
+    local i="${1}"
+    local var desc default
+    IFS='|' read -r var desc default <<< "${i}"
+    echo "$(trim "${var}")|$(trim "${desc}")|$(trim "${default}")"
+}
+
+function get_values() {
+    local vars=("${@}")
+    local v var desc default hint value
+    for v in "${vars[@]}"; do
+        v=$(parse_list_item "${v}")
+        IFS='|' read -r var desc default <<< "${v}"
+        if [ -z "${!var}" ]; then
+            hint="Enter ${desc:-${var}}"
+            if [ -n "${default}" ]; then
+                hint="${hint} [${default}]"
+            fi
+            while [ -z "${!var}" ]; do
+                read -p "${hint}: " value
+                if [ -n "${value}" ]; then
+                    export "${var}=${value}"
+                elif [ -n "${default}" ]; then
+                    export "${var}=${default}"
+                fi
+            done
+        fi
+    done
+}
+
+function confirm_values() {
+    local vars=("${@}")
+    local v var desc default value values
+    # check if all variables are set
+    for v in "${vars[@]}"; do
+        v=$(parse_list_item "${v}")
+        IFS='|' read -r var desc default <<< "${v}"
+        value="${!var}"
+        if [ -z "${value}" ]; then
+            echo "ERROR: \"${var}\" has not been set"
+            return 1
+        fi
+        values+="\$${var} = \"${value[@]}\"\n"
+    done
+    # print values
+    if [ -n "${values}" ]; then
+        echo -e "${values::-2}"
+    fi
+    # get user confirmation
+    echo; read -p "Would you like to continue with your supplied values? [y/N]: " -n 1 -r; echo
+    if [[ ! ${REPLY} =~ ^[Yy]$ ]]; then
+        return 1
+    fi
+    return 0
+}
+
+# ============================================================================================================================
+
+# verify supported container runtime
 if [ -z "${CONTAINER_RUNTIME}" ]; then
     readonly RUNTIME_OPTS=("podman" "docker" "nerdctl")
     for runtime in "${RUNTIME_OPTS[@]}"; do
