@@ -164,7 +164,7 @@ fi
 user_vars=(
     "IMAGE_NAME|image name"
     "IMAGE_REGISTRY|image registry|ghcr.io"
-    "IMAGE_REPOSITORY|image repository|irfanhakim-as"
+    "IMAGE_REPOSITORY|image repository"
     "IMAGE_VERSION|image version|latest"
     "IMAGE_ARCH|image architecture(s)|linux/amd64"
     "IMAGE_DOCKERFILE|image Dockerfile|Dockerfile"
