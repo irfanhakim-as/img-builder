@@ -142,22 +142,14 @@ function confirm_values() {
 # verify supported container runtime
 if [ -z "${CONTAINER_RUNTIME}" ]; then
     readonly RUNTIME_OPTS=("podman" "docker" "nerdctl")
-    for runtime in "${RUNTIME_OPTS[@]}"; do
-        if [ -x "$(command -v ${runtime})" ]; then
-            readonly CONTAINER_RUNTIME="${runtime}"
-            break
+    for r in "${RUNTIME_OPTS[@]}"; do
+        if [ -x "$(command -v ${r})" ]; then
+            readonly CONTAINER_RUNTIME="${r}"; break
         fi
     done
-    if [ -z "${CONTAINER_RUNTIME}" ]; then
-        echo "ERROR: You must have a supported container runtime installed"
-        exit 1
-    fi
-else
-    # check if specified container runtime is installed
-    if [ ! -x "$(command -v ${CONTAINER_RUNTIME})" ]; then
-        echo "ERROR: Specified container runtime is not installed (${CONTAINER_RUNTIME})"
-        exit 1
-    fi
+fi
+if [ -z "${CONTAINER_RUNTIME}" ] || [ ! -x "$(command -v ${CONTAINER_RUNTIME})" ]; then
+    echo "ERROR: You must have a supported container runtime installed"; exit 1
 fi
 
 # get user-supplied values
