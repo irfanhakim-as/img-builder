@@ -183,7 +183,7 @@ fi
 
 # ============================================================================================================================
 
-echo "#====== Building ${IMAGE_NAME} v${IMAGE_VERSION} at $(date +"%T") ======#"
+echo; echo "#====== Building ${IMAGE_NAME} v${IMAGE_VERSION} at $(date +"%T") ======#"
 
 # ${CONTAINER_RUNTIME} build --platform linux/amd64 -t "${IMAGE_NAME}":latest -f "${IMAGE_DOCKERFILE}" . \
 # && ${CONTAINER_RUNTIME} images \
