@@ -192,6 +192,7 @@ echo "#====== Building ${IMAGE_NAME} v${IMAGE_VERSION} at $(date +"%T") ======#"
 # && ${CONTAINER_RUNTIME} rmi "${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}/${IMAGE_NAME}:${IMAGE_VERSION}"
 
 # build and publish image for each platform
+IFS="," read -ra IMAGE_ARCH <<< "${IMAGE_ARCH}"
 for platform in "${IMAGE_ARCH[@]}"; do
     os="${platform%%/*}"
     arch="${platform#*/}"
