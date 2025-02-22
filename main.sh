@@ -160,43 +160,28 @@ else
     fi
 fi
 
-# ask for image name until it is set
-while [ -z "${IMAGE_NAME}" ]; do
-    read -p "Enter image name: " IMAGE_NAME
-done
+# get user-supplied values
+user_vars=(
+    "IMAGE_NAME|image name"
+    "IMAGE_REGISTRY|image registry|ghcr.io"
+    "IMAGE_REPOSITORY|image repository|irfanhakim-as"
+    "IMAGE_VERSION|image version|latest"
+    "IMAGE_ARCH|image architecture(s)|linux/amd64"
+    "IMAGE_DOCKERFILE|image Dockerfile|Dockerfile"
+)
+get_values "${user_vars[@]}"; echo
 
-# ask for image registry if not set
-if [ -z "${IMAGE_REGISTRY}" ]; then
-    read -p "Enter image registry [ghcr.io]: " IMAGE_REGISTRY
-fi
-
-# ask for image repository if not set
-if [ -z "${IMAGE_REPOSITORY}" ]; then
-    read -p "Enter image repository [irfanhakim-as]: " IMAGE_REPOSITORY
-fi
-
-# ask for image version if not set
-if [ -z "${IMAGE_VERSION}" ]; then
-    read -p "Enter image version [latest]: " IMAGE_VERSION
-fi
-
-# ask for image architecture if not set
-if [ -z "${IMAGE_ARCH}" ]; then
-    read -p "Enter image architecture(s) [linux/amd64]: " IMAGE_ARCH
-fi
-
-# ask for image dockerfile if not set
-if [ -z "${IMAGE_DOCKERFILE}" ]; then
-    read -p "Enter image Dockerfile [Dockerfile]: " IMAGE_DOCKERFILE
-fi
-
-readonly IMAGE_REGISTRY="${IMAGE_REGISTRY:-"ghcr.io"}"
-readonly IMAGE_REPOSITORY="${IMAGE_REPOSITORY:-"irfanhakim-as"}"
-readonly IMAGE_VERSION="${IMAGE_VERSION:-"latest"}"
+# additional variable processing and declaration
 readonly IMAGE_PATH="${IMAGE_PATH:-"${IMAGE_REPOSITORY}/${IMAGE_NAME}:${IMAGE_VERSION}"}"
-IFS="," read -ra IMAGE_ARCH <<< "${IMAGE_ARCH:-"linux/amd64"}"
-readonly IMAGE_DOCKERFILE="${IMAGE_DOCKERFILE:-"Dockerfile"}"
 IMAGE_BUILDS=()
+
+# confirm required variable values
+required_vars=("CONTAINER_RUNTIME" "${user_vars[@]}" "IMAGE_PATH")
+if ! confirm_values "${required_vars[@]}"; then
+    exit 1
+fi
+
+# ============================================================================================================================
 
 echo "#====== Building ${IMAGE_NAME} v${IMAGE_VERSION} at $(date +"%T") ======#"
 
