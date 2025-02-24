@@ -9,7 +9,8 @@ function print_help() {
     echo "  -e, --env <envfile>          specify an environment file"
     echo "  -f, --file <dockerfile>      specify a dockerfile"
     echo "  -r, --runtime <runtime>      specify a container runtime"
-    echo "  -v, --version <version>      specify the container image version"
+    echo "  -v, --version <version>      specify the container image version"; echo
+    echo "Report bugs to https://github.com/irfanhakim-as/img-builder/issues"
 }
 
 # get optional argument
