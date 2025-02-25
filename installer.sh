@@ -101,7 +101,7 @@ INSTALL_PFX=$(realpath -m "${INSTALL_PFX:-"${HOME}/.local"}") || exit 1
 
 # installation files
 installation_files=(
-    "main.sh|${INSTALL_PFX}/bin/img-builder"
+    "bin/main.sh|${INSTALL_PFX}/bin/img-builder"
 )
 
 # ============================================================================================================================
