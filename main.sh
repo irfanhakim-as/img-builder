@@ -132,10 +132,10 @@ function confirm_values() {
     fi
     # get user confirmation
     echo; read -p "Would you like to continue with your supplied values? [y/N]: " -n 1 -r; echo
-    if [[ ! ${REPLY} =~ ^[Yy]$ ]]; then
-        return 1
-    fi
-    return 0
+    case "${REPLY}" in
+        [Yy]) return 0 ;;
+        *) return 1 ;;
+    esac
 }
 
 # ============================================================================================================================
