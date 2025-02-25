@@ -13,8 +13,8 @@ function print_help() {
     echo "Report bugs to https://github.com/irfanhakim-as/img-builder/issues"
 }
 
-# get optional argument
-while [[ ${#} -gt 0 ]]; do
+# get optional arguments
+while [ ${#} -gt 0 ]; do
     case "${1}" in
         -h|--help)
             print_help
@@ -191,15 +191,15 @@ for platform in "${IMAGE_ARCH[@]}"; do
     os="${platform%%/*}"
     arch="${platform#*/}"
     arch_name="${arch%%/*}"
-    arch_version="${arch#*/}"; if [[ "${arch_version}" == "${arch_name}" ]]; then arch_version=""; fi
+    arch_version="${arch#*/}"; if [ "${arch_version}" == "${arch_name}" ]; then arch_version=""; fi
     image_tag="${IMAGE_PATH}-${os}-${arch//\//-}"
-    if [[ -z "${os}" || -z "${arch}" ]]; then
+    if [ -z "${os}" ] || [ -z "${arch}" ]; then
         echo "WARN: Invalid platform format \"${platform}\". Skipping..."
         continue
     fi
     # publish each image with its own tag
     if ${CONTAINER_RUNTIME} build --platform "${platform}" -t "${IMAGE_REGISTRY}/${image_tag}" -f "${IMAGE_DOCKERFILE}" .; then
-        if [[ "$(${CONTAINER_RUNTIME} inspect --format '{{ .Os }}/{{ .Architecture }}' ${IMAGE_REGISTRY}/${image_tag})" == "${os}/${arch_name}" ]]; then
+        if [ "$(${CONTAINER_RUNTIME} inspect --format '{{ .Os }}/{{ .Architecture }}' ${IMAGE_REGISTRY}/${image_tag})" == "${os}/${arch_name}" ]; then
             if ${CONTAINER_RUNTIME} push "${IMAGE_REGISTRY}/${image_tag}"; then
                 IMAGE_BUILDS+=("${IMAGE_REGISTRY}/${image_tag}")
             fi
@@ -215,7 +215,7 @@ for platform in "${IMAGE_ARCH[@]}"; do
 done
 
 # publish manifest of built images
-if [[ ${#IMAGE_BUILDS[@]} -gt 0 ]]; then
+if [ "${#IMAGE_BUILDS[@]}" -gt 0 ]; then
     if ${CONTAINER_RUNTIME} manifest inspect "${IMAGE_REGISTRY}/${IMAGE_PATH}" > /dev/null 2>&1; then
         ${CONTAINER_RUNTIME} manifest rm "${IMAGE_REGISTRY}/${IMAGE_PATH}"
     fi
