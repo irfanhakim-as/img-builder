@@ -32,12 +32,6 @@ ghcr.io/irfanhakim-as/img-builder:latest \
 sh
 ```
 
-Test building and publishing an image (inside the privileged environment):
-
-```sh
-img-builder --context src --version test
-```
-
 For a full list of configuration options, use the `--help` flag:
 
 ```sh
