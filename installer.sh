@@ -99,7 +99,7 @@ function uninstall() {
 # ============================================================================================================================
 
 # set default options
-INSTALL_PFX=$(realpath -m "${INSTALL_PFX:-"${HOME}/.local"}") || exit 1
+INSTALL_PFX=$(realpath "${INSTALL_PFX:-"${HOME}/.local"}") || exit 1
 
 # installation files
 installation_files=(
