@@ -11,7 +11,7 @@ img-builder is a lightweight tool for building and publishing container images t
 ## Examples
 
 > [!NOTE]  
-> Replace `<container-runtime>` with your installed container runtime (i.e. `podman`, `docker`, `nerdctl`)
+> Replace `<container-runtime>` with your installed container runtime (i.e. `podman`, `docker`, `nerdctl`).
 
 Basic rootless, unprivileged setup:
 
