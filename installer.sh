@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+SOURCE_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
+
 # print help message
 function print_help() {
     echo "Usage: ${0} [options]"; echo
@@ -50,7 +52,7 @@ function install() {
         # check for source installation files before proceeding
         for i in "${installation_files[@]}"; do
             IFS='|' read -r source target <<< "${i}"
-            if [ ! -f "${source}" ]; then
+            if [ ! -f "${SOURCE_DIR}/${source}" ]; then
                 echo "ERROR: Required file not found (${source})"; exit 1
             fi
         done
@@ -72,9 +74,9 @@ function install() {
             IFS='|' read -r source target <<< "${i}"
             echo "Installing ${source} to ${target}"
             if [ "${LINK_INSTALL}" != 1 ] || [[ "${source}" =~ ^(config|log)/ ]]; then
-                cp -i "${source}" "${target}"
+                cp -i "${SOURCE_DIR}/${source}" "${target}"
             else
-                ln -s "$(realpath "${source}")" "${target}"
+                ln -s "$(realpath "${SOURCE_DIR}/${source}")" "${target}"
             fi
         done
     fi
