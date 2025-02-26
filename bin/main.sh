@@ -165,7 +165,7 @@ fi
 # get user-supplied values
 user_vars=(
     "IMAGE_NAME|image name"
-    "IMAGE_REGISTRY|image registry|ghcr.io"
+    "IMAGE_REGISTRY|image registry|docker.io"
     "IMAGE_REPOSITORY|image repository"
     "IMAGE_VERSION|image version|latest"
     "IMAGE_ARCH|image architecture(s)|linux/amd64"
