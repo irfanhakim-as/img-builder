@@ -6,6 +6,7 @@ function print_help() {
     echo "OPTIONS:"
     echo "  -h, --help                   print help message"
     echo "  -a, --arch <arch>[,<arch>]   specify at least a single architecture"
+    echo "  -c, --context <path>         specify the build context path"
     echo "  -e, --env <envfile>          specify an environment file"
     echo "  -f, --file <dockerfile>      specify a dockerfile"
     echo "  -r, --runtime <runtime>      specify a container runtime"
@@ -26,6 +27,14 @@ while [ ${#} -gt 0 ]; do
                 exit 1
             fi
             IMAGE_ARCH="${2}"
+            shift
+            ;;
+        -c|--context)
+            if [ -z "${2}" ]; then
+                echo "ERROR: Please specify the build context path"
+                exit 1
+            fi
+            IMAGE_CONTEXT="${2}"
             shift
             ;;
         -e|--env)
@@ -160,6 +169,7 @@ user_vars=(
     "IMAGE_REPOSITORY|image repository"
     "IMAGE_VERSION|image version|latest"
     "IMAGE_ARCH|image architecture(s)|linux/amd64"
+    "IMAGE_CONTEXT|image context|."
     "IMAGE_DOCKERFILE|image Dockerfile|Dockerfile"
 )
 get_values "${user_vars[@]}"; echo
@@ -198,7 +208,7 @@ for platform in "${IMAGE_ARCH[@]}"; do
         continue
     fi
     # publish each image with its own tag
-    if ${CONTAINER_RUNTIME} build --platform "${platform}" -t "${IMAGE_REGISTRY}/${image_tag}" -f "${IMAGE_DOCKERFILE}" .; then
+    if ${CONTAINER_RUNTIME} build --platform "${platform}" -t "${IMAGE_REGISTRY}/${image_tag}" -f "${IMAGE_DOCKERFILE}" "${IMAGE_CONTEXT}"; then
         if [ "$(${CONTAINER_RUNTIME} inspect --format '{{ .Os }}/{{ .Architecture }}' ${IMAGE_REGISTRY}/${image_tag})" == "${os}/${arch_name}" ]; then
             if ${CONTAINER_RUNTIME} push "${IMAGE_REGISTRY}/${image_tag}"; then
                 IMAGE_BUILDS+=("${IMAGE_REGISTRY}/${image_tag}")
