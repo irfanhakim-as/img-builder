@@ -19,7 +19,7 @@ Basic rootless, unprivileged setup:
 <container-runtime> run --rm -it ghcr.io/irfanhakim-as/img-builder:latest sh
 ```
 
-Rootless, privileged setup with a complete set of [environment variables](#docker-variables):
+Rootless, privileged setup with, **optionally**, a complete set of [environment variables](#docker-variables):
 
 ```sh
 <container-runtime> run --rm -it \
