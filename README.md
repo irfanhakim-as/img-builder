@@ -22,7 +22,7 @@ Basic rootless, unprivileged setup:
 Rootless, privileged setup with, **optionally**, a complete set of [environment variables](#docker-variables):
 
 > [!IMPORTANT]  
-> The `--privileged` flag is required to use advanced `podman` functionalities, including what is featured in img-builder.
+> `--privileged` is required to use some `podman` functionalities, including what is featured in img-builder.
 
 ```sh
 <container-runtime> run --rm -it \
