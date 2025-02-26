@@ -66,3 +66,7 @@ img-builder --help
 | `AUTH_USER` | The username for authenticating with the image registry. | `my-user` | - |
 | `AUTH_TOKEN` | The authentication token or password for the image registry. | `my-secret-token` | - |
 | `SRC_REPO_URL` | The URL of a repository to clone into the container. | `https://github.com/example/test.git` | - |
+
+## License
+
+This project is licensed under the [AGPL-3.0-only](https://choosealicense.com/licenses/agpl-3.0) license. Please refer to the [LICENSE](LICENSE) file for more information.
