@@ -14,6 +14,7 @@ RUN apk add --no-cache \
     # coreutils \
     fuse-overlayfs \
     git \
+    openrc \
     passt \
     podman \
     shadow
