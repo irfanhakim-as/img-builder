@@ -8,6 +8,7 @@ img-builder is a lightweight tool for building and publishing container images t
 - **Containerised**: [Container image](https://github.com/irfanhakim-as/img-builder/pkgs/container/img-builder) is provided for a simple, reproducible setup.
 - **Intuitive**: Super easy to use, while being very configurable.
 - **Cross-platform**: Works on Linux, macOS, and Windows (using [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) or the supplied container).
+- **Compatibility**: Compatible with various container runtimes and container registries.
 
 ## Pre-requisites
 
