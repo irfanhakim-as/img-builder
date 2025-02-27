@@ -40,6 +40,38 @@ If you wish to undo this in the future, run the following command:
 <container-runtime> run --rm --privileged multiarch/qemu-user-static --reset -p no
 ```
 
+## Installation
+
+First and foremost, ensure that your system has met all of the documented [pre-requisites](#pre-requisites).
+
+### Local
+
+If you wish to use img-builder locally, follow these steps to install it on your system:
+
+1. Clone the [img-builder](https://github.com/irfanhakim-as/img-builder) repository to your home directory (i.e. `~/.img-builder`):
+
+    ```sh
+    git clone https://github.com/irfanhakim-as/img-builder.git ~/.img-builder
+    ```
+
+2. Get the breakdown of the installer options, using the `--help` flag:
+
+    ```sh
+    bash ~/.img-builder/installer.sh --help
+    ```
+
+3. Install img-builder using the provided installer. By default, this will install to the `~/.local` prefix:
+
+    ```sh
+    bash ~/.img-builder/installer.sh
+    ```
+
+    You may either change the installation prefix or ensure that it has been created and `~/.local/bin` is in your `${PATH}`.
+
+### Container
+
+If you intend to use img-builder as a container, please refer to the [examples](#examples) below to deploy a **rootless, privileged** setup.
+
 ## Examples
 
 Basic rootless, unprivileged setup:
