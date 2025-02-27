@@ -66,7 +66,7 @@ while [ ${#} -gt 0 ]; do
                 echo "ERROR: Please specify the container image version"
                 exit 1
             fi
-            IMAGE_VERSION="${2}"
+            IMAGE_TAG="${2}"
             shift
             ;;
         *)
@@ -167,7 +167,7 @@ user_vars=(
     "IMAGE_NAME|image name"
     "IMAGE_REGISTRY|image registry|docker.io"
     "IMAGE_REPOSITORY|image repository"
-    "IMAGE_VERSION|image version|latest"
+    "IMAGE_TAG|image version|latest"
     "IMAGE_ARCH|image architecture(s)|linux/amd64"
     "IMAGE_CONTEXT|image context|."
     "IMAGE_DOCKERFILE|image Dockerfile|Dockerfile"
@@ -175,7 +175,7 @@ user_vars=(
 get_values "${user_vars[@]}"; echo
 
 # additional variable processing and declaration
-readonly IMAGE_PATH="${IMAGE_PATH:-"${IMAGE_REPOSITORY}/${IMAGE_NAME}:${IMAGE_VERSION}"}"
+readonly IMAGE_PATH="${IMAGE_PATH:-"${IMAGE_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"}"
 IMAGE_BUILDS=()
 
 # confirm required variable values
@@ -186,13 +186,13 @@ fi
 
 # ============================================================================================================================
 
-echo; echo "#====== Building ${IMAGE_NAME} v${IMAGE_VERSION} at $(date +"%T") ======#"
+echo; echo "#====== Building ${IMAGE_NAME} v${IMAGE_TAG} at $(date +"%T") ======#"
 
 # ${CONTAINER_RUNTIME} build --platform linux/amd64 -t "${IMAGE_NAME}":latest -f "${IMAGE_DOCKERFILE}" . \
 # && ${CONTAINER_RUNTIME} images \
-# && ${CONTAINER_RUNTIME} tag "${IMAGE_NAME}":latest "${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}/${IMAGE_NAME}:${IMAGE_VERSION}" \
-# && ${CONTAINER_RUNTIME} push "${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}/${IMAGE_NAME}:${IMAGE_VERSION}" \
-# && ${CONTAINER_RUNTIME} rmi "${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}/${IMAGE_NAME}:${IMAGE_VERSION}"
+# && ${CONTAINER_RUNTIME} tag "${IMAGE_NAME}":latest "${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}" \
+# && ${CONTAINER_RUNTIME} push "${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}" \
+# && ${CONTAINER_RUNTIME} rmi "${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"
 
 # build and publish image for each platform
 IFS=',' read -ra IMAGE_ARCH <<< "${IMAGE_ARCH}"
@@ -235,7 +235,7 @@ if [ "${#IMAGE_BUILDS[@]}" -gt 0 ]; then
 fi
 
 if [ ${?} -eq 0 ]; then
-    echo "#====== Build ${IMAGE_NAME} v${IMAGE_VERSION} pushed to ${IMAGE_REGISTRY} at $(date +"%T") ======#"
+    echo "#====== Build ${IMAGE_NAME} v${IMAGE_TAG} pushed to ${IMAGE_REGISTRY} at $(date +"%T") ======#"
 else
-    echo "#====== Build ${IMAGE_NAME} v${IMAGE_VERSION} failed at $(date +"%T") ======#"; exit 1
+    echo "#====== Build ${IMAGE_NAME} v${IMAGE_TAG} failed at $(date +"%T") ======#"; exit 1
 fi

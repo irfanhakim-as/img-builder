@@ -122,7 +122,7 @@ img-builder --help
 | `IMAGE_NAME` | The name of the container image. | `my-container` | - |
 | `IMAGE_REGISTRY` | The container registry where the image should be published. | `ghcr.io`, `registry.gitlab.com` | `docker.io` |
 | `IMAGE_REPOSITORY` | The user account or namespace in the registry where the image will be stored. | `my-user`, `my-user/my-container` | - |
-| `IMAGE_VERSION` | The tag assigned to the image to indicate its version or build. | `0.1.0-stable-r1` | `latest` |
+| `IMAGE_TAG` | The tag assigned to the image to indicate its version or build. | `0.1.0-stable-r1` | `latest` |
 | `IMAGE_ARCH` | Comma-separated list of target platforms and architectures for the image build. | `linux/amd64,linux/arm/v7,linux/arm64/v8` | `linux/amd64` |
 | `IMAGE_CONTEXT` | The build context directory containing the Dockerfile and related files. | `./my-container` | `.` |
 | `IMAGE_DOCKERFILE` | The Dockerfile to use for building the image. | `slim-dockerfile` | `Dockerfile` |
