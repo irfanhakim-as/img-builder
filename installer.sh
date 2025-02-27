@@ -2,6 +2,9 @@
 
 SOURCE_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
 
+# source package metadata
+source "${SOURCE_DIR}/doc/package.conf"
+
 # print help message
 function print_help() {
     echo "Usage: ${0} [options]"; echo

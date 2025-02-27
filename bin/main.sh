@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+SOURCE_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
+PREFIX_DIR="${SOURCE_DIR}/.."
+
+# source package metadata
+source "${PREFIX_DIR}/doc/package.conf"
+
 # print help message
 function print_help() {
     echo "Usage: ${0} [options]"; echo
