@@ -9,6 +9,33 @@ img-builder is a lightweight tool for building and publishing container images t
 - **Intuitive**: Super easy to use, while being very configurable.
 - **Cross-platform**: Works on Linux, macOS, and Windows (using [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) or the supplied container).
 
+## Pre-requisites
+
+The following binaries or packages are required to be present on your system to install or use img-builder:
+
+- `bash`
+- `podman`, `docker`, or `nerdctl`
+- `realpath`
+
+If you are using an up-to-date system or the provided container image, these should be available by default.
+
+For multi-architecture build support, the following package(s) need to be installed on the host system:
+
+- Arch Linux: `qemu-user-static` and `qemu-user-static-binfmt`
+- Debian/Ubuntu: `qemu-user-static`
+
+**Alternatively**, run the following container **once** to enable multi-arch support:
+
+```sh
+<container-runtime> run --rm --privileged multiarch/qemu-user-static --reset -p yes
+```
+
+If you wish to undo this in the future, run the following command:
+
+```sh
+<container-runtime> run --rm --privileged multiarch/qemu-user-static --reset -p no
+```
+
 ## Examples
 
 > [!NOTE]  
