@@ -46,6 +46,10 @@ If you are facing permission issues, you may need to run the aforementioned comm
 
 First and foremost, ensure that your system has met all of the documented [pre-requisites](#pre-requisites).
 
+### Container
+
+If you wish to use img-builder as a container, refer to the [examples](#examples) section to deploy a **rootless, privileged** setup.
+
 ### Local
 
 If you wish to use img-builder locally, follow these steps to install it on your system:
@@ -69,10 +73,6 @@ If you wish to use img-builder locally, follow these steps to install it on your
     ```
 
     You may either change the installation prefix or ensure that it exists and `~/.local/bin` is in your `${PATH}`.
-
-### Container
-
-If you wish to use img-builder as a container, refer to the [examples](#examples) below to deploy a **rootless, privileged** setup.
 
 ## Examples
 
