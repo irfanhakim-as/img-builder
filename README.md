@@ -26,6 +26,9 @@ For multi-architecture build support, the following package(s) need to be instal
 
 **Alternatively**, run the following container **once** to enable multi-arch support:
 
+> [!NOTE]  
+> Replace `<container-runtime>` with your installed container runtime (i.e. `podman`, `docker`, `nerdctl`).
+
 ```sh
 <container-runtime> run --rm --privileged multiarch/qemu-user-static --reset -p yes
 ```
