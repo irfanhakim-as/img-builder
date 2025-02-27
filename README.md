@@ -44,6 +44,12 @@ img-builder --help
 
 ## Configuration
 
+### Installer Variables
+
+| **Option** | **Description** | **Sample Value** | **Default Value** |
+| --- | --- | --- | --- |
+| `INSTALL_PFX` | The base installation prefix where files will be installed. | `/usr/local` | `${HOME}/.local` |
+
 ### Environment Variables
 
 | **Option** | **Description** | **Sample Value** | **Default Value** |
