@@ -12,7 +12,8 @@ function print_help() {
     echo "  -h, --help                   print help message"
     echo "  -i, --install-prefix <path>  specify an installation prefix"
     echo "  -l, --link                   perform a symlink installation"
-    echo "  -u, --uninstall              uninstall the service menu"; echo
+    echo "  -u, --uninstall              uninstall the service menu"
+    echo "  -v, --version                return ${__name__} version"; echo
     echo "Report bugs to https://github.com/irfanhakim-as/img-builder/issues"
 }
 
@@ -36,6 +37,10 @@ while [ ${#} -gt 0 ]; do
             ;;
         -u|--uninstall)
             UNINSTALL_APP=1
+            ;;
+        -v|--version)
+            echo "${__name__}: ${__version__}"
+            exit 0
             ;;
         *)
             echo "ERROR: Invalid argument (${1})"

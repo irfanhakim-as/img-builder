@@ -16,7 +16,8 @@ function print_help() {
     echo "  -e, --env <envfile>          specify an environment file"
     echo "  -f, --file <dockerfile>      specify a dockerfile"
     echo "  -r, --runtime <runtime>      specify a container runtime"
-    echo "  -t, --tag <tag>              specify the container image tag"; echo
+    echo "  -t, --tag <tag>              specify the container image tag"
+    echo "  -v, --version                return ${__name__} version"; echo
     echo "Report bugs to https://github.com/irfanhakim-as/img-builder/issues"
 }
 
@@ -74,6 +75,10 @@ while [ ${#} -gt 0 ]; do
             fi
             IMAGE_TAG="${2}"
             shift
+            ;;
+        -v|--version)
+            echo "${__name__}: ${__version__}"
+            exit 0
             ;;
         *)
             echo "ERROR: Invalid argument (${1})"
