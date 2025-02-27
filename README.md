@@ -31,13 +31,13 @@ For multi-architecture build support, the following package(s) need to be instal
 > Replace `<container-runtime>` with your installed container runtime (i.e. `podman`, `docker`, `nerdctl`).
 
 ```sh
-<container-runtime> run --rm --privileged multiarch/qemu-user-static --reset -p yes
+<container-runtime> run --rm --privileged docker.io/multiarch/qemu-user-static --reset -p yes
 ```
 
 If you wish to undo this in the future, run the following command:
 
 ```sh
-<container-runtime> run --rm --privileged multiarch/qemu-user-static --reset -p no
+<container-runtime> run --rm --privileged docker.io/multiarch/qemu-user-static --reset -p no
 ```
 
 ## Installation
