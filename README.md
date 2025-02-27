@@ -66,11 +66,11 @@ If you wish to use img-builder locally, follow these steps to install it on your
     bash ~/.img-builder/installer.sh
     ```
 
-    You may either change the installation prefix or ensure that it has been created and `~/.local/bin` is in your `${PATH}`.
+    You may either change the installation prefix or ensure that it exists and `~/.local/bin` is in your `${PATH}`.
 
 ### Container
 
-If you intend to use img-builder as a container, please refer to the [examples](#examples) below to deploy a **rootless, privileged** setup.
+If you wish to use img-builder as a container, refer to the [examples](#examples) below to deploy a **rootless, privileged** setup.
 
 ## Examples
 
