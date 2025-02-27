@@ -89,14 +89,12 @@ Rootless, privileged setup with, **optionally**, a complete set of [environment 
 > `--privileged` is required to use some `podman` functionalities, including what is featured in img-builder.
 
 ```sh
-<container-runtime> run --rm -it \
---privileged \
+<container-runtime> run --rm -it --privileged \
 -e IMAGE_REGISTRY="ghcr.io" \
 -e AUTH_USER="my-user" \
 -e AUTH_TOKEN="my-secret-token" \
 -e SRC_REPO_URL="https://github.com/example/test.git" \
-ghcr.io/irfanhakim-as/img-builder:latest \
-sh
+ghcr.io/irfanhakim-as/img-builder:latest sh
 ```
 
 For a breakdown of img-builder usage options, use the `--help` flag:
