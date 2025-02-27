@@ -40,6 +40,8 @@ If you wish to undo this in the future, run the following command:
 <container-runtime> run --rm --privileged docker.io/multiarch/qemu-user-static --reset -p no
 ```
 
+If you are facing permission issues, you may need to run the aforementioned commands as `root` using `sudo`.
+
 ## Installation
 
 First and foremost, ensure that your system has met all of the documented [pre-requisites](#pre-requisites).
