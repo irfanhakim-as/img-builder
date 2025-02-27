@@ -7,6 +7,7 @@ ENV USER_UID="1001"
 ENV GROUP_GID="${USER_UID}"
 # ENV STORAGE_DRIVER="vfs"
 ENV STORAGE_DRIVER="overlay"
+# ENV PODMAN_IGNORE_CGROUPSV1_WARNING="1"
 
 RUN apk add --no-cache \
     bash \
