@@ -38,10 +38,10 @@ If you wish to undo this in the future, run the following command:
 
 ## Examples
 
+Basic rootless, unprivileged setup:
+
 > [!NOTE]  
 > Replace `<container-runtime>` with your installed container runtime (i.e. `podman`, `docker`, `nerdctl`).
-
-Basic rootless, unprivileged setup:
 
 ```sh
 <container-runtime> run --rm -it ghcr.io/irfanhakim-as/img-builder:latest sh
