@@ -66,7 +66,7 @@ ghcr.io/irfanhakim-as/img-builder:latest \
 sh
 ```
 
-For a full list of configuration options, use the `--help` flag:
+For a breakdown of img-builder usage options, use the `--help` flag:
 
 ```sh
 img-builder --help
