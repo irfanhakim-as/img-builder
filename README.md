@@ -48,6 +48,8 @@ img-builder --help
 
 | **Option** | **Description** | **Sample Value** | **Default Value** |
 | --- | --- | --- | --- |
+| `BUILD_ENVFILE` | The path to an environment file defining build config variables. | `.build.env` | - |
+| `CONTAINER_RUNTIME` | The runtime environment used for container-based operations. | `docker` | `podman`, `docker`, or `nerdctl` |
 | `IMAGE_NAME` | The name of the container image. | `my-container` | - |
 | `IMAGE_REGISTRY` | The container registry where the image should be published. | `ghcr.io`, `registry.gitlab.com` | `docker.io` |
 | `IMAGE_REPOSITORY` | The user account or namespace in the registry where the image will be stored. | `my-user`, `my-user/my-container` | - |
