@@ -10,7 +10,7 @@ function print_help() {
     echo "  -e, --env <envfile>          specify an environment file"
     echo "  -f, --file <dockerfile>      specify a dockerfile"
     echo "  -r, --runtime <runtime>      specify a container runtime"
-    echo "  -v, --version <version>      specify the container image version"; echo
+    echo "  -t, --tag <tag>              specify the container image tag"; echo
     echo "Report bugs to https://github.com/irfanhakim-as/img-builder/issues"
 }
 
@@ -61,9 +61,9 @@ while [ ${#} -gt 0 ]; do
             CONTAINER_RUNTIME="${2}"
             shift
             ;;
-        -v|--version)
+        -t|--tag)
             if [ -z "${2}" ]; then
-                echo "ERROR: Please specify the container image version"
+                echo "ERROR: Please specify the container image tag"
                 exit 1
             fi
             IMAGE_TAG="${2}"
@@ -167,7 +167,7 @@ user_vars=(
     "IMAGE_NAME|image name"
     "IMAGE_REGISTRY|image registry|docker.io"
     "IMAGE_REPOSITORY|image repository"
-    "IMAGE_TAG|image version|latest"
+    "IMAGE_TAG|image tag|latest"
     "IMAGE_ARCH|image architecture(s)|linux/amd64"
     "IMAGE_CONTEXT|image context|."
     "IMAGE_DOCKERFILE|image Dockerfile|Dockerfile"
