@@ -56,7 +56,7 @@ function install() {
     local installation_files=("${@}")
     local i source target required_directories d
     if [ "${#installation_files[@]}" -gt 0 ]; then
-        echo "Installing img-builder..."
+        echo "Installing ${__name__}..."
         # check for source installation files before proceeding
         for i in "${installation_files[@]}"; do
             IFS='|' read -r source target <<< "${i}"
@@ -94,7 +94,7 @@ function uninstall() {
     local installation_files=("${@}")
     local i source target
     if [ "${#installation_files[@]}" -gt 0 ]; then
-        echo "Uninstalling img-builder..."
+        echo "Uninstalling ${__name__}..."
         # remove installed files
         for i in "${installation_files[@]}"; do
             IFS='|' read -r source target <<< "${i}"
@@ -111,7 +111,7 @@ INSTALL_PFX=$(realpath "${INSTALL_PFX:-"${HOME}/.local"}") || exit 1
 
 # installation files
 installation_files=(
-    "bin/main.sh|${INSTALL_PFX}/bin/img-builder"
+    "bin/main.sh|${INSTALL_PFX}/bin/${__name__}"
 )
 
 # ============================================================================================================================
