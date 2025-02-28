@@ -16,7 +16,6 @@ The following binaries or packages are required to be present on your system to 
 
 - `bash`
 - `podman`, `docker`, or `nerdctl`
-- `realpath`
 
 If you are using an up-to-date system or the provided container image, these should be available by default.
 
