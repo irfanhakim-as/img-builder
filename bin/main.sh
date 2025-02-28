@@ -4,7 +4,7 @@ SOURCE_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
 PREFIX_DIR="${SOURCE_DIR}/.."
 
 # source package metadata
-source "${PREFIX_DIR}/doc/package.conf"
+source "${PREFIX_DIR}/doc/package.conf" 2>/dev/null || source "${PREFIX_DIR}/share/doc/img-builder/package.conf" 2>/dev/null || { echo "ERROR: Failed to source package metadata"; exit 1; }
 
 # print help message
 function print_help() {
