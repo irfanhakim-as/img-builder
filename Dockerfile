@@ -50,9 +50,9 @@ RUN printf '%s\n' '#!/bin/sh' \
     chmod +x /entrypoint.sh && \
     chown "${CONTAINER_USER}":"${CONTAINER_GROUP}" /entrypoint.sh
 
-COPY bin/ "/opt/${CONTAINER_NAME}/bin/"
+COPY bin/ /opt/"${CONTAINER_NAME}"/bin/
 
-COPY doc/ "/opt/${CONTAINER_NAME}/share/doc/"
+COPY doc/ /opt/"${CONTAINER_NAME}"/share/doc/
 
 COPY installer.sh LICENSE /opt/"${CONTAINER_NAME}"/
 
