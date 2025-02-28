@@ -60,6 +60,8 @@ If you wish to use img-builder locally, follow these steps to install it on your
     git clone https://github.com/irfanhakim-as/img-builder.git ~/.img-builder
     ```
 
+    **Alternatively**, download the [latest release](https://github.com/irfanhakim-as/img-builder/releases/latest) and extract it to your home directory (i.e. `~/.img-builder`).
+
 2. Get the breakdown of the installer options, using the `--help` flag:
 
     ```sh
