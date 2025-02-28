@@ -17,7 +17,7 @@ The following binaries or packages are required to be present on your system to 
 - `bash`
 - `podman`, `docker`, or `nerdctl`
 
-If you are using an up-to-date system or the provided container image, these should be available by default.
+If you are using the provided container image, these should be available by default.
 
 For multi-architecture build support, the following package(s) need to be installed on the host system:
 
