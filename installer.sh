@@ -114,6 +114,8 @@ INSTALL_PFX=$(realpath "${INSTALL_PFX:-"${HOME}/.local"}") || exit 1
 # installation files
 installation_files=(
     "bin/main.sh|${INSTALL_PFX}/bin/${__name__}"
+    "doc/package.conf|${INSTALL_PFX}/share/doc/${__name__}/"
+    "LICENSE|${INSTALL_PFX}/share/doc/${__name__}/"
 )
 
 # ============================================================================================================================

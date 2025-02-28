@@ -52,7 +52,9 @@ RUN printf '%s\n' '#!/bin/sh' \
 
 COPY bin/ "/opt/${CONTAINER_NAME}/bin/"
 
-COPY installer.sh "/opt/${CONTAINER_NAME}/"
+COPY doc/ "/opt/${CONTAINER_NAME}/share/doc/"
+
+COPY installer.sh LICENSE /opt/"${CONTAINER_NAME}"/
 
 RUN /bin/bash "/opt/${CONTAINER_NAME}/installer.sh" --install-prefix "/usr/local" && \
     rm -rf "/opt/${CONTAINER_NAME}"
