@@ -54,7 +54,7 @@ COPY bin/ /opt/"${CONTAINER_NAME}"/bin/
 
 COPY doc/ /opt/"${CONTAINER_NAME}"/doc/
 
-COPY installer.sh LICENSE /opt/"${CONTAINER_NAME}"/
+COPY installer.sh LICENSE README.md /opt/"${CONTAINER_NAME}"/
 
 RUN /bin/bash "/opt/${CONTAINER_NAME}/installer.sh" --install-prefix "/usr/local" && \
     rm -rf "/opt/${CONTAINER_NAME}"
