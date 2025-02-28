@@ -10,7 +10,7 @@ img-builder is a lightweight tool for building and publishing container images t
 - **Cross-platform**: Works on Linux, macOS, and Windows (using [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) or the supplied container).
 - **Compatibility**: Compatible with various container runtimes and container registries.
 
-## Pre-requisites
+## Prerequisites
 
 The following binaries or packages are required to be present on your system to install or use img-builder:
 
@@ -44,7 +44,7 @@ If you are facing permission issues, you may need to run the aforementioned comm
 
 ## Installation
 
-First and foremost, ensure that your system has met all of the documented [pre-requisites](#pre-requisites).
+First and foremost, ensure that your system has met all of the documented [prerequisites](#prerequisites).
 
 ### Container
 
