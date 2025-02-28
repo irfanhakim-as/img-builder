@@ -18,7 +18,7 @@ function print_help() {
     echo "  -r, --runtime <runtime>      specify a container runtime"
     echo "  -t, --tag <tag>              specify the container image tag"
     echo "  -v, --version                return ${__name__} version"; echo
-    echo "Report bugs to https://github.com/irfanhakim-as/img-builder/issues"
+    echo "Report bugs to ${__bugs__}"
 }
 
 # get optional arguments

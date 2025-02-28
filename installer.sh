@@ -14,7 +14,7 @@ function print_help() {
     echo "  -l, --link                   perform a symlink installation"
     echo "  -u, --uninstall              uninstall the service menu"
     echo "  -v, --version                return ${__name__} version"; echo
-    echo "Report bugs to https://github.com/irfanhakim-as/img-builder/issues"
+    echo "Report bugs to ${__bugs__}"
 }
 
 # get optional arguments
