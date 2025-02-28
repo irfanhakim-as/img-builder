@@ -44,7 +44,7 @@ RUN printf '%s\n' '#!/bin/sh' \
     '  echo "${AUTH_TOKEN}" | podman login "${IMAGE_REGISTRY}" -u "${AUTH_USER}" --password-stdin' \
     'fi' \
     'if [ -n "${SRC_REPO_URL}" ]; then' \
-    '  git clone --depth 1 "${SRC_REPO_URL}" "/home/${CONTAINER_USER}/src"' \
+    '  git clone "${SRC_REPO_URL}" "/home/${CONTAINER_USER}/src"' \
     'fi' \
     'exec "${@}"' > /entrypoint.sh && \
     chmod +x /entrypoint.sh && \
