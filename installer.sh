@@ -92,14 +92,16 @@ function install() {
 
 function uninstall() {
     local installation_files=("${@}")
-    local i source target
+    local i source target removed_targets
     if [ "${#installation_files[@]}" -gt 0 ]; then
         echo "Uninstalling ${__name__}..."
         # remove installed files
         for i in "${installation_files[@]}"; do
             IFS='|' read -r source target <<< "${i}"
-            echo "Removing ${target}"
-            rm -f "${target}" || rm -rf "${target}"
+            if [[ ! " ${removed_targets[@]} " =~ " ${target} " ]]; then
+                echo "Removing ${target}"
+                rm -f "${target}" 2>/dev/null || rm -rf "${target}" 2>/dev/null && removed_targets+=("${target}")
+            fi
         done
     fi
 }
