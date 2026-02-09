@@ -17,7 +17,8 @@ function print_help() {
     echo "  -f, --file <dockerfile>      specify a dockerfile"
     echo "  -r, --runtime <runtime>      specify a container runtime"
     echo "  -t, --tag <tag>              specify the container image tag"
-    echo "  -v, --version                return ${__name__} version"; echo
+    echo "  -v, --version                return ${__name__} version"
+    echo "  -y, --skip-confirmation      skip user value confirmation"; echo
     echo "Report bugs to ${__bugs__}"
 }
 
@@ -79,6 +80,9 @@ while [ ${#} -gt 0 ]; do
         -v|--version)
             echo "${__name__}: ${__version__}"
             exit 0
+            ;;
+        -y|--skip-confirmation)
+            SKIP_CONFIRMATION=true
             ;;
         *)
             echo "ERROR: Invalid argument (${1})"
@@ -150,6 +154,8 @@ function confirm_values() {
     if [ -n "${values}" ]; then
         echo -e "${values::-2}"
     fi
+    # skip user confirmation if specified
+    [ "${SKIP_CONFIRMATION}" = "true" ] && return 0
     # get user confirmation
     echo; read -p "Would you like to continue with your supplied values? [y/N]: " -n 1 -r; echo
     case "${REPLY}" in
