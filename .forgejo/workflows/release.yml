@@ -58,17 +58,11 @@ jobs:
     env:
       VERSION: ${{ needs.metadata.outputs.version }}
     outputs:
-      release_exists: ${{ steps.check_release.outputs.exists }}
+      forgejo_release_exists: ${{ steps.check_forgejo_release.outputs.exists }}
+      github_release_exists: ${{ steps.check_github_release.outputs.exists }}
     steps:
-      # - name: Check out the repository
-      #   id: checkout
-      #   uses: actions/checkout@v4
-      #   with:
-      #     token: ${{ env.REPO_TOKEN }}
-      #     fetch-depth: 0
-
-      - name: Check if release exists
-        id: check_release
+      - name: Check if Forgejo release exists
+        id: check_forgejo_release
         run: |
           # check if release of said version exists via Forgejo API
           status_code=$(curl -s -o /dev/null -w "%{http_code}" \
@@ -76,10 +70,29 @@ jobs:
             "${{ forgejo.server_url }}/api/v1/repos/${{ forgejo.repository }}/releases/tags/v${VERSION}")
 
           if [ "${status_code}" = "200" ]; then
-            echo "Release v${VERSION} already exists."
+            echo "Forgejo release v${VERSION} already exists."
             exists=true
           else
-            echo "Release v${VERSION} has not been created."
+            echo "Forgejo release v${VERSION} has not been created."
+            exists=false
+          fi
+
+          # export result to output
+          echo "exists=${exists}" | tee -a ${GITHUB_OUTPUT}
+
+      - name: Check if GitHub release exists
+        id: check_github_release
+        run: |
+          # check if release of said version exists via GitHub API
+          status_code=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: token ${GH_TOKEN}" \
+            "https://api.github.com/repos/${GH_REPOSITORY}/releases/tags/v${VERSION}")
+
+          if [ "${status_code}" = "200" ]; then
+            echo "GitHub release v${VERSION} already exists."
+            exists=true
+          else
+            echo "GitHub release v${VERSION} has not been created."
             exists=false
           fi
 
@@ -89,7 +102,7 @@ jobs:
   go:
     runs-on: ubuntu-latest
     needs: [metadata, check]
-    if: needs.check.outputs.release_exists == 'false'
+    if: needs.check.outputs.forgejo_release_exists == 'false' || needs.check.outputs.github_release_exists == 'false'
     env:
       VERSION: ${{ needs.metadata.outputs.version }}
       NAME: ${{ needs.metadata.outputs.name }}
@@ -163,6 +176,7 @@ jobs:
 
       - name: Create Forgejo release
         id: create_forgejo_release
+        if: needs.check.outputs.forgejo_release_exists == 'false'
         env:
           COMMITS: ${{ steps.get_commits.outputs.commits }}
         run: |
@@ -190,6 +204,7 @@ jobs:
 
       - name: Upload asset to Forgejo release
         id: upload_forgejo_asset
+        if: needs.check.outputs.forgejo_release_exists == 'false'
         env:
           ASSET: ${{ steps.package_asset.outputs.asset }}
           RELEASE_ID: ${{ steps.create_forgejo_release.outputs.release_id }}
@@ -202,6 +217,7 @@ jobs:
 
       - name: Create GitHub release
         id: create_github_release
+        if: needs.check.outputs.github_release_exists == 'false'
         env:
           COMMITS: ${{ steps.get_commits.outputs.commits }}
         run: |
@@ -230,6 +246,7 @@ jobs:
 
       - name: Upload asset to GitHub release
         id: upload_github_asset
+        if: needs.check.outputs.github_release_exists == 'false'
         env:
           ASSET: ${{ steps.package_asset.outputs.asset }}
           UPLOAD_URL: ${{ steps.create_github_release.outputs.upload_url }}
