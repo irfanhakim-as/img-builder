@@ -188,7 +188,7 @@ jobs:
           release_notes="Release v${VERSION}.\n\n**Changes**:\n\n${decoded_commits}"
 
           # create release via Forgejo API
-          response=$(curl -s -X POST \
+          response=$(curl -X POST \
             -H "Authorization: token ${REPO_TOKEN}" \
             -H "Content-Type: application/json" \
             "${{ forgejo.server_url }}/api/v1/repos/${{ forgejo.repository }}/releases" \
@@ -199,8 +199,15 @@ jobs:
               --arg target "${main_branch}" \
               '{tag_name: $tag, name: $name, body: $body, target_commitish: $target}')")
 
+          # validate response
+          release_id=$(echo "${response}" | jq -r '.id')
+          if [ "${release_id}" = "null" ] || [ -z "${release_id}" ]; then
+            echo "ERROR: Failed to create Forgejo release. Response: ${response}"
+            exit 1
+          fi
+
           # export release id to output
-          echo "release_id=$(echo "${response}" | jq -r '.id')" | tee -a ${GITHUB_OUTPUT}
+          echo "release_id=${release_id}" | tee -a ${GITHUB_OUTPUT}
 
       - name: Upload asset to Forgejo release
         id: upload_forgejo_asset
@@ -229,7 +236,7 @@ jobs:
           release_notes="Release v${VERSION}.\n\n**Changes**:\n\n${decoded_commits}"
 
           # create release via GitHub API
-          response=$(curl -s -X POST \
+          response=$(curl -X POST \
             -H "Authorization: token ${GH_TOKEN}" \
             -H "Content-Type: application/json" \
             "https://api.github.com/repos/${GH_REPOSITORY}/releases" \
@@ -241,8 +248,15 @@ jobs:
               --argjson generate_release_notes "${GENERATE_RELEASE_NOTES}" \
               '{tag_name: $tag, name: $name, body: $body, target_commitish: $target, generate_release_notes: $generate_release_notes}')")
 
+          # validate response
+          upload_url=$(echo "${response}" | jq -r '.upload_url')
+          if [ "${upload_url}" = "null" ] || [ -z "${upload_url}" ]; then
+            echo "ERROR: Failed to create GitHub release. Response: ${response}"
+            exit 1
+          fi
+
           # export upload url to output (strips trailing {?name,label} template)
-          echo "upload_url=$(echo "${response}" | jq -r '.upload_url' | sed 's/{.*}//')" | tee -a ${GITHUB_OUTPUT}
+          echo "upload_url=$(echo "${upload_url}" | sed 's/{.*}//')" | tee -a ${GITHUB_OUTPUT}
 
       - name: Upload asset to GitHub release
         id: upload_github_asset
