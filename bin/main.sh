@@ -184,6 +184,9 @@ if [ "${CONTAINER_RUNTIME}" = "docker" ] && ! docker buildx version > /dev/null 
     echo "ERROR: docker buildx is required but not available"; exit 1
 fi
 
+# runtime-specific build flags
+build_flags=$([ "${CONTAINER_RUNTIME}" = "docker" ] && echo "--provenance=false")
+
 # get user-supplied values
 user_vars=(
     "IMAGE_NAME|image name"
