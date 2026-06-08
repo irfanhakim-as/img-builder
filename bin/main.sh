@@ -233,7 +233,7 @@ for platform in "${IMAGE_ARCH[@]}"; do
         continue
     fi
     # publish each image with its own tag
-    if ${CONTAINER_RUNTIME} build --platform "${platform}" -t "${IMAGE_REGISTRY}/${image_tag}" -f "${IMAGE_DOCKERFILE}" "${IMAGE_CONTEXT}"; then
+    if ${CONTAINER_RUNTIME} build ${build_flags} --platform "${platform}" -t "${IMAGE_REGISTRY}/${image_tag}" -f "${IMAGE_DOCKERFILE}" "${IMAGE_CONTEXT}"; then
         if [ "$(${CONTAINER_RUNTIME} inspect --format '{{ .Os }}/{{ .Architecture }}' ${IMAGE_REGISTRY}/${image_tag})" == "${os}/${arch_name}" ]; then
             if ${CONTAINER_RUNTIME} push "${IMAGE_REGISTRY}/${image_tag}"; then
                 IMAGE_BUILDS+=("${IMAGE_REGISTRY}/${image_tag}")
