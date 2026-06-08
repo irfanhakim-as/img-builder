@@ -15,7 +15,7 @@ img-builder is a lightweight tool for building and publishing container images t
 The following binaries or packages are required to be present on your system to install or use img-builder:
 
 - `bash`
-- `podman`, `docker`, or `nerdctl`
+- `podman`, `docker` (with [Buildx](https://github.com/docker/buildx) included), or `nerdctl`
 
 If you are using the provided container image, these should be available by default.
 

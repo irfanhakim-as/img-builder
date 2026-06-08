@@ -179,6 +179,14 @@ if [ -z "${CONTAINER_RUNTIME}" ] || [ ! -x "$(command -v ${CONTAINER_RUNTIME})" 
     echo "ERROR: You must have a supported container runtime installed"; exit 1
 fi
 
+# runtime-specific prerequisite checks
+if [ "${CONTAINER_RUNTIME}" = "docker" ] && ! docker buildx version > /dev/null 2>&1; then
+    echo "ERROR: docker buildx is required but not available"; exit 1
+fi
+
+# runtime-specific build flags
+build_flags=$([ "${CONTAINER_RUNTIME}" = "docker" ] && echo "--provenance=false")
+
 # get user-supplied values
 user_vars=(
     "IMAGE_NAME|image name"
@@ -225,7 +233,7 @@ for platform in "${IMAGE_ARCH[@]}"; do
         continue
     fi
     # publish each image with its own tag
-    if ${CONTAINER_RUNTIME} build --platform "${platform}" -t "${IMAGE_REGISTRY}/${image_tag}" -f "${IMAGE_DOCKERFILE}" "${IMAGE_CONTEXT}"; then
+    if ${CONTAINER_RUNTIME} build ${build_flags} --platform "${platform}" -t "${IMAGE_REGISTRY}/${image_tag}" -f "${IMAGE_DOCKERFILE}" "${IMAGE_CONTEXT}"; then
         if [ "$(${CONTAINER_RUNTIME} inspect --format '{{ .Os }}/{{ .Architecture }}' ${IMAGE_REGISTRY}/${image_tag})" == "${os}/${arch_name}" ]; then
             if ${CONTAINER_RUNTIME} push "${IMAGE_REGISTRY}/${image_tag}"; then
                 IMAGE_BUILDS+=("${IMAGE_REGISTRY}/${image_tag}")
@@ -243,12 +251,16 @@ done
 
 # publish manifest of built images
 if [ "${#IMAGE_BUILDS[@]}" -gt 0 ]; then
-    if ${CONTAINER_RUNTIME} manifest inspect "${IMAGE_REGISTRY}/${IMAGE_PATH}" > /dev/null 2>&1; then
-        ${CONTAINER_RUNTIME} manifest rm "${IMAGE_REGISTRY}/${IMAGE_PATH}"
+    if [ "${CONTAINER_RUNTIME}" = "docker" ]; then
+        ${CONTAINER_RUNTIME} buildx imagetools create -t "${IMAGE_REGISTRY}/${IMAGE_PATH}" "${IMAGE_BUILDS[@]}"
+    else
+        if ${CONTAINER_RUNTIME} manifest inspect "${IMAGE_REGISTRY}/${IMAGE_PATH}" > /dev/null 2>&1; then
+            ${CONTAINER_RUNTIME} manifest rm "${IMAGE_REGISTRY}/${IMAGE_PATH}"
+        fi
+        ${CONTAINER_RUNTIME} manifest create "${IMAGE_REGISTRY}/${IMAGE_PATH}" "${IMAGE_BUILDS[@]}" \
+        && ${CONTAINER_RUNTIME} manifest push "${IMAGE_REGISTRY}/${IMAGE_PATH}" \
+        && ${CONTAINER_RUNTIME} manifest rm "${IMAGE_REGISTRY}/${IMAGE_PATH}"
     fi
-    ${CONTAINER_RUNTIME} manifest create "${IMAGE_REGISTRY}/${IMAGE_PATH}" "${IMAGE_BUILDS[@]}" \
-    && ${CONTAINER_RUNTIME} manifest push "${IMAGE_REGISTRY}/${IMAGE_PATH}" \
-    && ${CONTAINER_RUNTIME} manifest rm "${IMAGE_REGISTRY}/${IMAGE_PATH}"
 fi
 
 if [ ${?} -eq 0 ]; then
