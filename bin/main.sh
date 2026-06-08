@@ -251,12 +251,16 @@ done
 
 # publish manifest of built images
 if [ "${#IMAGE_BUILDS[@]}" -gt 0 ]; then
-    if ${CONTAINER_RUNTIME} manifest inspect "${IMAGE_REGISTRY}/${IMAGE_PATH}" > /dev/null 2>&1; then
-        ${CONTAINER_RUNTIME} manifest rm "${IMAGE_REGISTRY}/${IMAGE_PATH}"
+    if [ "${CONTAINER_RUNTIME}" = "docker" ]; then
+        ${CONTAINER_RUNTIME} buildx imagetools create -t "${IMAGE_REGISTRY}/${IMAGE_PATH}" "${IMAGE_BUILDS[@]}"
+    else
+        if ${CONTAINER_RUNTIME} manifest inspect "${IMAGE_REGISTRY}/${IMAGE_PATH}" > /dev/null 2>&1; then
+            ${CONTAINER_RUNTIME} manifest rm "${IMAGE_REGISTRY}/${IMAGE_PATH}"
+        fi
+        ${CONTAINER_RUNTIME} manifest create "${IMAGE_REGISTRY}/${IMAGE_PATH}" "${IMAGE_BUILDS[@]}" \
+        && ${CONTAINER_RUNTIME} manifest push "${IMAGE_REGISTRY}/${IMAGE_PATH}" \
+        && ${CONTAINER_RUNTIME} manifest rm "${IMAGE_REGISTRY}/${IMAGE_PATH}"
     fi
-    ${CONTAINER_RUNTIME} manifest create "${IMAGE_REGISTRY}/${IMAGE_PATH}" "${IMAGE_BUILDS[@]}" \
-    && ${CONTAINER_RUNTIME} manifest push "${IMAGE_REGISTRY}/${IMAGE_PATH}" \
-    && ${CONTAINER_RUNTIME} manifest rm "${IMAGE_REGISTRY}/${IMAGE_PATH}"
 fi
 
 if [ ${?} -eq 0 ]; then
